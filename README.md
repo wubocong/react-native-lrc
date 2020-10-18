@@ -64,7 +64,7 @@ export default Lyric;
 | autoScrollAfterUserScroll | auto scroll after user scroll                        | number, **millisecond**                                                                                          | 6000                                                                                                                             |
 | spaceTop                  | space on lrc component top, percent of lrc component | number, 0~1                                                                                                      | 0.4                                                                                                                              |
 | onCurrentLineChange       | when current line change                             | ({ index: number, lrcLine: { id: string, millisecond: number, content: string } \| null }) => void               | null                                                                                                                             |
-
+| `other props`             | other react-native [ScrollView](https://reactnative.dev/docs/scrollview#props) Props                |                                                                         |                                                                                                                                  |
 ### `Lrc` Methods
 
 | method              | description                                | type                                                                                           |
@@ -99,6 +99,16 @@ const Component = () => {
 ### Why lrc component do not auto scroll
 
 You probably do not give `height` to `Lrc`. The `height` make `Lrc` scrollable.
+
+### How to prevent user scroll
+
+```jsx
+<Lrc
+  scrollEnabled={false}
+  autoScrollAfterUserScroll={0}
+  {...otherProps}
+/>
+```
 
 ## Typescript
 
