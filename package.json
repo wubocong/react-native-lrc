@@ -1,0 +1,43 @@
+{
+  "name": "react-native-lrc",
+  "version": "1.0.0-beta.0",
+  "author": "Warrior!<wubocong.xyz@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "lrc",
+    "lyric",
+    "react-native-web",
+    "react",
+    "component"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wubocong/react-native-lrc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wubocong/react-native-lrc/issues"
+  },
+  "homepage": "https://github.com/wubocong/react-native-lrc#readme",
+  "scripts": {
+    "build": "microbundle-crl -f es,cjs",
+    "dev": "microbundle-crl watch --no-compress -f es,cjs",
+    "prepublishOnly": "npm run build"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.m.js",
+  "source": "src/index.tsx",
+  "peerDependencies": {
+    "react": "16.13.1",
+    "react-native": "0.63.3"
+  },
+  "devDependencies": {
+    "microbundle-crl": "~0.13.11",
+    "@types/react": "^16.9.49",
+    "@types/react-native": "^0.63.2",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "eslint": "^6.5.1"
+  }
+}
