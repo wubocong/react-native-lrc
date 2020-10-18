@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/wubocong/react-native-lrc#readme",
   "scripts": {
-    "build": "microbundle-crl -f es,cjs",
+    "build": "microbundle-crl --no-compress -f es,cjs",
     "dev": "microbundle-crl watch --no-compress -f es,cjs",
     "prepublishOnly": "npm run build"
   },

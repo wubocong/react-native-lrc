@@ -33,6 +33,7 @@ const Lyric = ({ lrc, currentTime }) => {
         {content}
       </Text>
     ),
+    [],
   );
   const onCurrentLineChange = useCallback(
     ({ lrcLine: { millisecond, content }, index }) =>
@@ -55,16 +56,17 @@ export default Lyric;
 
 ### `Lrc` Props
 
-| prop                      | description                                          | type                                                                                                             | default                                                                                                                          |
-| ------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| lrc                       | lrc string                                           | string                                                                                                           | required                                                                                                                         |
-| lineRenderer              | lrc line render method                               | ({ lrcLine: { id: string, millisecond: number, content: string }, index: number, active: boolean }) => ReactNode | ({ lrcLine: { content }, active }) => (<Text style={{ textAlign: 'center', color: active ? 'green' : '#666' }}>{content}</Text>) |
-| currentTime               | current time                                         | number, **millisecond**                                                                                          | 0                                                                                                                                |
-| autoScroll                | whether auto scroll                                  | boolean                                                                                                          | true                                                                                                                             |
-| autoScrollAfterUserScroll | auto scroll after user scroll                        | number, **millisecond**                                                                                          | 6000                                                                                                                             |
-| spaceTop                  | space on lrc component top, percent of lrc component | number, 0~1                                                                                                      | 0.4                                                                                                                              |
-| onCurrentLineChange       | when current line change                             | ({ index: number, lrcLine: { id: string, millisecond: number, content: string } \| null }) => void               | null                                                                                                                             |
-| `other props`             | other react-native [ScrollView](https://reactnative.dev/docs/scrollview#props) Props                |                                                                         |                                                                                                                                  |
+| prop                      | description                                                                          | type                                                                                                             | default                                                                                                                          |
+| ------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| lrc                       | lrc string                                                                           | string                                                                                                           | required                                                                                                                         |
+| lineRenderer              | lrc line render method                                                               | ({ lrcLine: { id: string, millisecond: number, content: string }, index: number, active: boolean }) => ReactNode | ({ lrcLine: { content }, active }) => (<Text style={{ textAlign: 'center', color: active ? 'green' : '#666' }}>{content}</Text>) |
+| currentTime               | current time                                                                         | number, **millisecond**                                                                                          | 0                                                                                                                                |
+| autoScroll                | whether auto scroll                                                                  | boolean                                                                                                          | true                                                                                                                             |
+| autoScrollAfterUserScroll | auto scroll after user scroll                                                        | number, **millisecond**                                                                                          | 6000                                                                                                                             |
+| spaceTop                  | space on lrc component top, percent of lrc component                                 | number, 0~1                                                                                                      | 0.4                                                                                                                              |
+| onCurrentLineChange       | when current line change                                                             | ({ index: number, lrcLine: { id: string, millisecond: number, content: string } \| null }) => void               | null                                                                                                                             |
+| `other props`             | other react-native [ScrollView](https://reactnative.dev/docs/scrollview#props) Props |                                                                                                                  |                                                                                                                                  |
+
 ### `Lrc` Methods
 
 | method              | description                                | type                                                                                           |
@@ -77,7 +79,7 @@ export default Lyric;
 ### parseLrc
 
 ```jsx
-import { parseLrc } from '@mebtte/react-lrc';
+import { parseLrc } from 'react-native-lrc';
 
 parseLrc(lrcString); // { id: string, millesecond: number, content: string }[]
 ```
@@ -86,7 +88,7 @@ parseLrc(lrcString); // { id: string, millesecond: number, content: string }[]
 
 ```jsx
 import React from 'react';
-import { useLrc } from '@mebtte/react-lrc';
+import { useLrc } from 'react-native-lrc';
 
 const Component = () => {
   const lrcLineList = useLrc(lrcString); // { id: string, millesecond: number, content: string }[]
@@ -103,11 +105,7 @@ You probably do not give `height` to `Lrc`. The `height` make `Lrc` scrollable.
 ### How to prevent user scroll
 
 ```jsx
-<Lrc
-  scrollEnabled={false}
-  autoScrollAfterUserScroll={0}
-  {...otherProps}
-/>
+<Lrc scrollEnabled={false} autoScrollAfterUserScroll={0} {...otherProps} />
 ```
 
 ## Typescript
@@ -116,7 +114,7 @@ You probably do not give `height` to `Lrc`. The `height` make `Lrc` scrollable.
 
 ```tsx
 import React from 'react';
-import { LrcLine } from '@mebtte/react-lrc';
+import { LrcLine } from 'react-native-lrc';
 
 const Component = () => {
   const lineRenderer = React.useCallback(
