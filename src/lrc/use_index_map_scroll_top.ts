@@ -25,8 +25,7 @@ export default ({
       for (let i = 0, { length } = lrcLineNodeList; i < length; i += 1) {
         const lrcLineNode = lrcLineNodeList[i];
         lrcLineNode.measureInWindow((_, lrcLineNodeY) => {
-          map[i] = lrcLineNodeY - lrcNodeY;
-          // map[i] = lrcLineNodeY - lrcNodeY - lrcNodeHeight * spaceTop;
+          map[i] = lrcLineNodeY - lrcNodeY - lrcNodeHeight * spaceTop;
         });
       }
       setIndexMapScrollTop(map);
