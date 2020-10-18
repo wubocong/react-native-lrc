@@ -1,9 +1,9 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useRef, useImperativeHandle, useEffect } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, StyleProp, Text, View, ViewStyle } from 'react-native';
 
 import { LrcLine, AUTO_SCROLL_AFTER_USER_SCROLL } from '../constant';
 import useLrc from '../util/use_lrc';
-import useIndexMapScrollTop from './use_index_map_scroll_top';
 import useCurrentIndex from './use_current_index';
 import useLocalAutoScroll from './use_local_auto_scroll';
 
@@ -26,8 +26,6 @@ interface Props {
   autoScroll?: boolean;
   /** auto scroll after user scroll */
   autoScrollAfterUserScroll?: number;
-  /** space on lrc component top, percent of lrc component */
-  spaceTop?: number;
   /** when current line change */
   onCurrentLineChange?: ({
     index,
@@ -36,6 +34,10 @@ interface Props {
     index: number;
     lrcLine: LrcLine | null;
   }) => void;
+  style: StyleProp<ViewStyle>;
+  height: number;
+  lineHeight: number;
+  activeLineHeight: number;
   [key: string]: any;
 }
 
@@ -53,29 +55,25 @@ const Lrc = React.forwardRef<
   {
     lrc,
     lineRenderer = ({ lrcLine: { content }, active }) => (
-      // eslint-disable-next-line react-native/no-inline-styles
       <Text style={{ textAlign: 'center', color: active ? 'green' : '#666' }}>
         {content}
       </Text>
     ),
     currentTime = 0,
-    spaceTop = 0.4,
     autoScroll = true,
+    lineHeight = 16,
+    activeLineHeight = lineHeight,
     autoScrollAfterUserScroll = AUTO_SCROLL_AFTER_USER_SCROLL,
     onCurrentLineChange,
+    height = 500,
+    style,
     ...props
   }: Props,
   ref,
 ) {
   const lrcRef = useRef<ScrollView>(null);
-  const lrcLineNodesRef = useRef<View[]>([]);
   const lrcLineList = useLrc(lrc);
-  const indexMapScrollTop = useIndexMapScrollTop({
-    lrcLineList,
-    lrcLineNodeList: lrcLineNodesRef.current,
-    lrcRef,
-    spaceTop: autoScroll ? spaceTop : 0,
-  });
+
   const currentIndex = useCurrentIndex({ lrcLineList, currentTime });
   const {
     localAutoScroll,
@@ -90,11 +88,11 @@ const Lrc = React.forwardRef<
   useEffect(() => {
     if (localAutoScroll) {
       lrcRef.current?.scrollTo({
-        y: indexMapScrollTop[currentIndex] || 0,
+        y: currentIndex * lineHeight || 0,
         animated: true,
       });
     }
-  }, [currentIndex, localAutoScroll, indexMapScrollTop]);
+  }, [currentIndex, localAutoScroll, lineHeight]);
 
   // on current line change
   useEffect(() => {
@@ -113,7 +111,7 @@ const Lrc = React.forwardRef<
     scrollToCurrentLine: () => {
       resetLocalAutoScroll();
       lrcRef.current?.scrollTo({
-        y: indexMapScrollTop[currentIndex] || 0,
+        y: currentIndex * lineHeight || 0,
         animated: true,
       });
     },
@@ -124,22 +122,23 @@ const Lrc = React.forwardRef<
       {...props}
       ref={lrcRef}
       scrollEventThrottle={40}
-      onScroll={onScroll}>
+      onScroll={onScroll}
+      style={[style, { height }]}>
       <View>
-        {autoScroll ? <View style={{ height: `${spaceTop * 100}%` }} /> : null}
+        {autoScroll ? (
+          <View style={{ width: '100%', height: 0.45 * height }} />
+        ) : null}
         {lrcLineList.map((lrcLine, index) => (
           <View
             key={lrcLine.id}
-            ref={(node) => {
-              if (node) {
-                lrcLineNodesRef.current[index] = node;
-              }
+            style={{
+              height: currentIndex === index ? activeLineHeight : lineHeight,
             }}>
             {lineRenderer({ lrcLine, index, active: currentIndex === index })}
           </View>
         ))}
         {autoScroll ? (
-          <View style={{ height: `${(1 - spaceTop) * 100}%` }} />
+          <View style={{ width: '100%', height: 0.5 * height }} />
         ) : null}
       </View>
     </ScrollView>

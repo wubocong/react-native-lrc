@@ -43,8 +43,10 @@ const Lyric = ({ lrc, currentTime }) => {
 
   return (
     <Lrc
+      style={{ height: 500 }}
       lrc={lrc}
       currentTime={currentTime}
+      lineHeight={16}
       lineRenderer={lineRenderer}
       onCurrentLineChange={onCurrentLineChange}
     />
@@ -63,9 +65,11 @@ export default Lyric;
 | currentTime               | current time                                                                         | number, **millisecond**                                                                                          | 0                                                                                                                                |
 | autoScroll                | whether auto scroll                                                                  | boolean                                                                                                          | true                                                                                                                             |
 | autoScrollAfterUserScroll | auto scroll after user scroll                                                        | number, **millisecond**                                                                                          | 6000                                                                                                                             |
-| spaceTop                  | space on lrc component top, percent of lrc component                                 | number, 0~1                                                                                                      | 0.4                                                                                                                              |
 | onCurrentLineChange       | when current line change                                                             | ({ index: number, lrcLine: { id: string, millisecond: number, content: string } \| null }) => void               | null                                                                                                                             |
-| `other props`             | other react-native [ScrollView](https://reactnative.dev/docs/scrollview#props) Props |                                                                                                                  |                                                                                                                                  |
+| lineHeight                | lrc line height                                                                      | number                                                                                                           | 16                                                                                                                               |
+| activeLineHeight          | active lrc line height                                                               | number                                                                                                           | `lineHeight`                                                                                                                     |
+| height                    | lrc container height                                                                 | number                                                                                                           | 500                                                                                                                              |
+| `other props`             | other react-native [ScrollView](https://reactnative.dev/docs/scrollview#props) Props | -                                                                                                                | -                                                                                                                                |
 
 ### `Lrc` Methods
 
